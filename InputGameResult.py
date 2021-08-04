@@ -24,7 +24,7 @@ result.grid(row=0, column=7)
 
 date_entry = Entry(root, width=10, justify="center")
 date_entry.grid(row=1, column=0, rowspan=2, padx=1, pady=1, ipady=10)
-date_entry.insert(0, "8/3/2021")
+date_entry.insert(0, "YYYY-MM-DD")
 
 red_side = Label(root, width=10, text="Red Team", justify="center")
 red_side.grid(row=1, column=1)
@@ -73,13 +73,35 @@ def cmd():
     blue_support = support_entry2.get().lower()
 
     players = [red_top, red_jungle, red_mid, red_adc, red_support, blue_top, blue_jungle, blue_mid, blue_adc, blue_support]
+    game_date = date_entry.get()
+    if result_entry.get() == "Win":
+        red_result = 1
+    else:
+        red_result = 0
+    if result_entry2.get() == "Win":
+        blue_result = 1
+    else:
+        blue_result = 0
+
+    if red_result == 1 and blue_result == 1:
+        print("Error - Both team cannot win")
+        exit()
+    else:
+        print("Error - Both team cannot lose")
+        exit()
+
+    check_count = 0
 
     for player in players:
         if player != "" and GameMoa.lolstat.CheckUser(player).get_result() == True:
-            print("pass")
-        else:
-            print("Error")
+            check_count += 1
 
+    if check_count == 10:
+        GameMoa.lolstat.Redteam(red_top, red_jungle, red_mid, red_adc, red_support)
+        GameMoa.lolstat.Blueteam(blue_top, blue_jungle, blue_mid, blue_adc, blue_support)
+        GameMoa.lolstat.GameResult(red_result, blue_result, game_date)
+    else:
+        print("Error - not valid user")
 
 button1 = Button(root, text="Save", command=cmd)
 button1.grid(row=3, column=3)

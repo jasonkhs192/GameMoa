@@ -14,7 +14,7 @@ class SampleApp(tk.Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
-        self._frame.pack()
+        self._frame.grid()
 
 
 class StartPage(tk.Frame):
@@ -24,7 +24,9 @@ class StartPage(tk.Frame):
         tk.Label(self, text="Welcome GameMoa!", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
         tk.Button(self, text="Input New Player",
                   command=lambda: master.switch_frame(PageOne)).pack(fill="x", pady=2)
-        tk.Button(self, text="View Results",
+        tk.Button(self, text="Input Game Result",
+                  command=lambda: master.switch_frame(PageThree)).pack(fill="x", pady=2)
+        tk.Button(self, text="View Player Stats",
                   command=lambda: master.switch_frame(PageTwo)).pack(fill="x", pady=2)
 
 
@@ -67,7 +69,14 @@ class PageOne(tk.Frame):
             else:
                 print("Error")
 
-            GameMoa.lolstat.WinLoss()
+            GameMoa.lolstat.RedWin
+            GameMoa.lolstat.RedLose
+            GameMoa.lolstat.BlueWin
+            GameMoa.lolstat.BlueLose
+            GameMoa.lolstat.SumWin
+            GameMoa.lolstat.SumLose
+            GameMoa.lolstat.TotalGame
+
 
         button1 = tk.Button(self, text="Submit", bg="yellow", fg="red", command=cmd)
         button1.grid(row=3, column=1)
@@ -112,6 +121,125 @@ class PageTwo(tk.Frame):
 
         tk.Button(self, text="Back",
                   command=lambda: master.switch_frame(StartPage)).grid(row=i+1, column=j-1)
+
+
+class PageThree(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+
+        date = tk.Label(self, text="Date", width=12, relief="ridge")
+        date.grid(row=0, column=0)
+        side = tk.Label(self, text="Side", width=12, relief="ridge")
+        side.grid(row=0, column=1)
+        top = tk.Label(self, text="Top", width=16, relief="ridge")
+        top.grid(row=0, column=2)
+        jungle = tk.Label(self, text="Jungle", width=16, relief="ridge")
+        jungle.grid(row=0, column=3)
+        mid = tk.Label(self, text="Mid", width=16, relief="ridge")
+        mid.grid(row=0, column=4)
+        adc = tk.Label(self, text="ADC", width=16, relief="ridge")
+        adc.grid(row=0, column=5)
+        support = tk.Label(self, text="Support", width=16, relief="ridge")
+        support.grid(row=0, column=6)
+        result = tk.Label(self, text="Result", width=8, relief="ridge")
+        result.grid(row=0, column=7)
+
+        date_entry = tk.Entry(self, width=14, justify="center")
+        date_entry.grid(row=1, column=0, rowspan=2, padx=1, pady=1, ipady=10)
+        date_entry.insert(0, "YYYY-MM-DD")
+
+        red_side = tk.Label(self, width=12, text="Red Team", justify="center")
+        red_side.grid(row=1, column=1)
+        top_entry = tk.Entry(self, width=18, justify="center")
+        top_entry.grid(row=1, column=2)
+        jungle_entry = tk.Entry(self, width=18, justify="center")
+        jungle_entry.grid(row=1, column=3)
+        mid_entry = tk.Entry(self, width=18, justify="center")
+        mid_entry.grid(row=1, column=4)
+        adc_entry = tk.Entry(self, width=18, justify="center")
+        adc_entry.grid(row=1, column=5)
+        support_entry = tk.Entry(self, width=18, justify="center")
+        support_entry.grid(row=1, column=6)
+        option = ["Win", "Lose"]
+        winlose = [str(x) for x in option]
+        result_entry = tk.ttk.Combobox(self, width=6, height=5, values=winlose, state="readonly")
+        result_entry.grid(row=1, column=7)
+
+        blue_side = tk.Label(self, width=12, text="Blue Team", justify="center")
+        blue_side.grid(row=2, column=1)
+        top_entry2 = tk.Entry(self, width=18, justify="center")
+        top_entry2.grid(row=2, column=2)
+        jungle_entry2 = tk.Entry(self, width=18, justify="center")
+        jungle_entry2.grid(row=2, column=3)
+        mid_entry2 = tk.Entry(self, width=18, justify="center")
+        mid_entry2.grid(row=2, column=4)
+        adc_entry2 = tk.Entry(self, width=18, justify="center")
+        adc_entry2.grid(row=2, column=5)
+        support_entry2 = tk.Entry(self, width=18, justify="center")
+        support_entry2.grid(row=2, column=6)
+        result_entry2 = tk.ttk.Combobox(self, width=6, height=5, values=winlose, state="readonly")
+        result_entry2.grid(row=2, column=7)
+
+        def cmd():
+            red_top = top_entry.get().lower()
+            red_jungle = jungle_entry.get().lower()
+            red_mid = mid_entry.get().lower()
+            red_adc = adc_entry.get().lower()
+            red_support = support_entry.get().lower()
+
+            blue_top = top_entry2.get().lower()
+            blue_jungle = jungle_entry2.get().lower()
+            blue_mid = mid_entry2.get().lower()
+            blue_adc = adc_entry2.get().lower()
+            blue_support = support_entry2.get().lower()
+
+            players = [red_top, red_jungle, red_mid, red_adc, red_support, blue_top, blue_jungle, blue_mid, blue_adc,
+                       blue_support]
+            game_date = date_entry.get()
+
+            if result_entry.get() == "Win":
+                red_result = 1
+            else:
+                red_result = 0
+            if result_entry2.get() == "Win":
+                blue_result = 1
+            else:
+                blue_result = 0
+
+            if red_result == 1 and blue_result == 1:
+                print("Error - Both team cannot win")
+                exit()
+            elif red_result == 0 and blue_result == 0:
+                print("Error - Both team cannot lose")
+                exit()
+            else:
+                pass
+
+            check_count = 0
+
+            for player in players:
+                if player != "" and GameMoa.lolstat.CheckUser(player).get_result() == True:
+                    check_count += 1
+
+            if check_count == 10:
+                GameMoa.lolstat.GameResult(red_result, blue_result, game_date)
+                GameMoa.lolstat.Redteam(red_top, red_jungle, red_mid, red_adc, red_support)
+                GameMoa.lolstat.Blueteam(blue_top, blue_jungle, blue_mid, blue_adc, blue_support)
+                GameMoa.lolstat.RedWin
+                GameMoa.lolstat.RedLose
+                GameMoa.lolstat.BlueWin
+                GameMoa.lolstat.BlueLose
+                GameMoa.lolstat.SumWin
+                GameMoa.lolstat.SumLose
+                GameMoa.lolstat.TotalGame
+
+            else:
+                print("Error - not valid user")
+
+        button1 = tk.Button(self, text="Save", command=cmd)
+        button1.grid(row=3, column=3)
+        tk.Button(self, text="Back",
+                  command=lambda: master.switch_frame(StartPage)).grid(row=3, column=4)
 
 app = SampleApp()
 app.mainloop()
