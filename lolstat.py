@@ -61,7 +61,7 @@ class NewUser:
         self.rank = rank
         self.position = position
 
-        query = "INSERT INTO users (summonername, ranktier, mainposition, totalgame, wins, loss, red_wins, red_loss, blue_wins, blue_loss) values (%s, %s, %s, 0, 0, 0, 0, 0, 0, 0)"
+        query = "INSERT INTO users (summonername, ranktier, mainposition, win_rate, totalgame, wins, loss, red_wins, red_loss, blue_wins, blue_loss) values (%s, %s, %s, -, 0, 0, 0, 0, 0, 0, 0)"
         val = (name, rank, position)
         mycursor.execute(query, val)
         mydb.commit()
@@ -92,6 +92,7 @@ class RedWin:
     winval = []
     lossval = []
     totalval = []
+    winrate = []
     # Set users red team wins
     for x in result:
         for y in x:
@@ -192,3 +193,27 @@ class TotalGame:
             mycursor.execute(query2, (i, y))
             mydb.commit()
 
+class WinRate:
+    query = "select summonername from users"
+    mycursor.execute(query)
+    result = mycursor.fetchall()
+    # add users wins and loss
+    for x in result:
+        for y in x:
+            sum_query = "select round((wins / totalgame *100), 2) from users where summonername = %s"
+            mycursor.execute(sum_query, (y, ))
+            sum_result = mycursor.fetchall()
+            winrate = str(sum_result[0][0])
+            print(winrate)
+
+            if winrate != None:
+                query2 = "update users set win_rate = %s where summonername = %s"
+                mycursor.execute(query2, (winrate, y))
+                mydb.commit()
+            else:
+                winrate = "-"
+                query2 = "update users set winrate = %s where summonername = %s"
+                mycursor.execute(query2, (winrate, y))
+                mydb.commit()
+
+WinRate

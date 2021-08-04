@@ -16,29 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `redteam`
+-- Table structure for table `gameresult`
 --
 
-DROP TABLE IF EXISTS `redteam`;
+DROP TABLE IF EXISTS `gameresult`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `redteam` (
-  `id` int DEFAULT NULL,
-  `top` varchar(30) DEFAULT NULL,
-  `jungle` varchar(30) DEFAULT NULL,
-  `mid` varchar(30) DEFAULT NULL,
-  `adc` varchar(30) DEFAULT NULL,
-  `support` varchar(30) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `gameresult` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `redteam_result` tinyint(1) DEFAULT NULL,
+  `blueteam_result` tinyint(1) DEFAULT NULL,
+  `game_date` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `redteam`
+-- Dumping data for table `gameresult`
 --
 
-LOCK TABLES `redteam` WRITE;
-/*!40000 ALTER TABLE `redteam` DISABLE KEYS */;
-/*!40000 ALTER TABLE `redteam` ENABLE KEYS */;
+LOCK TABLES `gameresult` WRITE;
+/*!40000 ALTER TABLE `gameresult` DISABLE KEYS */;
+INSERT INTO `gameresult` VALUES (1,0,1,'2021-05-26'),(2,1,0,'2021-05-26'),(3,0,1,'2021-05-26'),(4,0,1,'2021-05-26'),(5,1,0,'2021-05-28'),(6,1,0,'2021-05-28'),(7,0,1,'2021-05-28'),(8,1,0,'2021-05-28'),(9,1,0,'2021-05-28'),(10,0,1,'2021-05-30'),(11,0,1,'2021-05-30'),(12,0,1,'2021-05-31'),(13,0,1,'2021-05-31'),(14,0,1,'2021-06-15'),(15,0,1,'2021-06-15'),(16,1,0,'2021-06-17'),(17,0,1,'2021-06-21'),(18,0,1,'2021-06-21'),(19,0,1,'2021-06-21'),(20,1,0,'2021-07-05'),(21,0,1,'2021-07-05'),(22,1,0,'2021-07-05'),(23,0,1,'2021-07-09'),(24,1,0,'2021-07-09'),(25,0,1,'2021-07-09'),(26,1,0,'2021-07-20'),(27,0,1,'2021-07-20'),(28,0,1,'2021-07-26'),(29,0,1,'2021-07-26'),(30,1,0,'2021-07-26'),(31,0,1,'2021-07-26'),(32,0,1,'2021-08-01'),(33,0,1,'2021-08-01'),(34,0,1,'2021-08-01'),(35,0,1,'2021-08-01');
+/*!40000 ALTER TABLE `gameresult` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-03 17:11:45
+-- Dump completed on 2021-08-04 17:13:46
