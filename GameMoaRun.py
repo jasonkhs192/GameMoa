@@ -99,7 +99,7 @@ class PageTwo(tk.Frame):
         ####### end of connection ####
         my_conn.execute("SELECT * FROM users")
         result = my_conn.fetchall()
-        column_list = ["Index", "ID", "Rank", "Main Role", "Total Game", "Win", "Loss", "Red Win", "Red Loss",
+        column_list = ["Index", "ID", "Rank", "Main Role", "Win Rate %", "Total Game", "Win", "Loss", "Red Win", "Red Loss",
                        "Blue Win", "Blue Loss"]
         for x in result:
             length = len(x)

@@ -204,7 +204,6 @@ class WinRate:
             mycursor.execute(sum_query, (y, ))
             sum_result = mycursor.fetchall()
             winrate = str(sum_result[0][0])
-            print(winrate)
 
             if winrate != None:
                 query2 = "update users set win_rate = %s where summonername = %s"
