@@ -16,6 +16,15 @@ class SampleApp(tk.Tk):
         self._frame = new_frame
         self._frame.grid()
 
+    GameMoa.lolstat.RedWin
+    GameMoa.lolstat.RedLose
+    GameMoa.lolstat.BlueWin
+    GameMoa.lolstat.BlueLose
+    GameMoa.lolstat.SumWin
+    GameMoa.lolstat.SumLose
+    GameMoa.lolstat.TotalGame
+    GameMoa.lolstat.WinRate
+
 
 class StartPage(tk.Frame):
     def __init__(self, master):
@@ -106,16 +115,15 @@ class PageTwo(tk.Frame):
             break
 
         for x in range(length):
-            c = tk.Label(self, width=9, text=column_list[x], relief="ridge", borderwidth=2, font="helvetica 10 bold")
+            c = tk.Label(self, width=13, text=column_list[x], relief="ridge", borderwidth=2, font="helvetica 10 bold")
             c.grid(row=0, column=x + 1)
 
         i = 1
         for x in result:
             j = 1
             for y in x:
-                e = tk.Entry(self, width=12, justify="center")
+                e = tk.Label(self, text=y, width=15, justify="center", relief="ridge")
                 e.grid(row=i, column=j)
-                e.insert(tk.END, y)
                 j += 1
             i += 1
 
@@ -232,6 +240,7 @@ class PageThree(tk.Frame):
                 GameMoa.lolstat.SumWin
                 GameMoa.lolstat.SumLose
                 GameMoa.lolstat.TotalGame
+                GameMoa.lolstat.WinRate
 
             else:
                 print("Error - not valid user")

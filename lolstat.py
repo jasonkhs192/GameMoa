@@ -204,15 +204,6 @@ class WinRate:
             mycursor.execute(sum_query, (y, ))
             sum_result = mycursor.fetchall()
             winrate = str(sum_result[0][0])
-
-            if winrate != None:
-                query2 = "update users set win_rate = %s where summonername = %s"
-                mycursor.execute(query2, (winrate, y))
-                mydb.commit()
-            else:
-                winrate = "-"
-                query2 = "update users set winrate = %s where summonername = %s"
-                mycursor.execute(query2, (winrate, y))
-                mydb.commit()
-
-WinRate
+            query2 = "update users set win_rate = %s where summonername = %s"
+            mycursor.execute(query2, (winrate, y))
+            mydb.commit()
