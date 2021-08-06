@@ -14,7 +14,7 @@ class SampleApp(tk.Tk):
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
-        self._frame.grid()
+        self._frame.pack()
 
     GameMoa.lolstat.RedWin
     GameMoa.lolstat.RedLose
@@ -37,6 +37,8 @@ class StartPage(tk.Frame):
                   command=lambda: master.switch_frame(PageThree)).pack(fill="x", pady=2)
         tk.Button(self, text="View Player Stats",
                   command=lambda: master.switch_frame(PageTwo)).pack(fill="x", pady=2)
+        tk.Button(self, text="View Game Results",
+                  command=lambda: master.switch_frame(PageFour)).pack(fill="x", pady=2)
 
 
 class PageOne(tk.Frame):
@@ -108,27 +110,40 @@ class PageTwo(tk.Frame):
         ####### end of connection ####
         my_conn.execute("SELECT * FROM users")
         result = my_conn.fetchall()
+
+        main_frame = tk.Frame(self)
+        main_frame.pack(fill="both", expand=1)
+
+        my_canvas = tk.Canvas(main_frame, width=1325, height=450)
+        my_canvas.pack(side="left", fill="both", expand=1)
+
+        my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=my_canvas.yview)
+        my_scrollbar.pack(side="right", fill="y")
+
+        my_canvas.configure(yscrollcommand=my_scrollbar.set)
+        my_canvas.bind('<Configure>', lambda f: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+
+        second_frame = tk.Frame(my_canvas)
+
+        my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
         column_list = ["Index", "ID", "Rank", "Main Role", "Win Rate %", "Total Game", "Win", "Loss", "Red Win", "Red Loss",
                        "Blue Win", "Blue Loss"]
-        for x in result:
-            length = len(x)
-            break
-
-        for x in range(length):
-            c = tk.Label(self, width=13, text=column_list[x], relief="ridge", borderwidth=2, font="helvetica 10 bold")
-            c.grid(row=0, column=x + 1)
-
+        i = 0
+        for column in column_list:
+            c = tk.Label(second_frame, width=13, text=column, relief="ridge", borderwidth=2, font="helvetica 10 bold")
+            c.grid(row=0, column=i+1)
+            i += 1
         i = 1
         for x in result:
             j = 1
             for y in x:
-                e = tk.Label(self, text=y, width=15, justify="center", relief="ridge")
+                e = tk.Label(second_frame, text=y, width=15, justify="center", relief="ridge")
                 e.grid(row=i, column=j)
                 j += 1
             i += 1
 
-        tk.Button(self, text="Back",
-                  command=lambda: master.switch_frame(StartPage)).grid(row=i+1, column=j-1)
+        tk.Button(self, text="Back", width=10, command=lambda: master.switch_frame(StartPage)).pack()
 
 
 class PageThree(tk.Frame):
@@ -249,6 +264,185 @@ class PageThree(tk.Frame):
         button1.grid(row=3, column=3)
         tk.Button(self, text="Back",
                   command=lambda: master.switch_frame(StartPage)).grid(row=3, column=4)
+
+
+class PageFour(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+
+        my_db = mysql.connector.connect(
+            host='localhost',
+            user='root',
+            password='123456',
+            port='3306',
+            database='moadb'
+        )
+
+        my_cursor = my_db.cursor()
+        main_frame = tk.Frame(self)
+        main_frame.pack(fill="both", expand=1)
+
+        my_canvas = tk.Canvas(main_frame, width=990, height=450)
+        my_canvas.pack(side="left", fill="both", expand=1)
+
+        my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=my_canvas.yview)
+        my_scrollbar.pack(side="right", fill="y")
+
+        my_canvas.configure(yscrollcommand=my_scrollbar.set)
+        my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+
+        second_frame = tk.Frame(my_canvas)
+
+        my_canvas.create_window((0, 0), window=second_frame, anchor="nw")
+
+        column_list = ["Match", "Date", "Side", "Top", "Jungle", "Mid", "ADC", "Support", "Result"]
+        i = 0
+        for column in column_list:
+            c = tk.Label(second_frame, width=13, text=column, relief="ridge", borderwidth=2, font="helvetica 10 bold")
+            c.grid(row=0, column=i)
+            i += 1
+
+        query = "select id from gameresult"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 1
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge", height=2)
+            c.grid(row=i, column=0, rowspan=2)
+            i += 2
+        query = "select game_date from gameresult"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        game_counts = (len(result))
+        i = 1
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge", height=2)
+            c.grid(row=i, column=1, rowspan=2)
+            i += 2
+
+        for x in range(1, game_counts * 2, 2):
+            tk.Label(second_frame, text="Red Team", width=15, relief="ridge").grid(row=x, column=2)
+            tk.Label(second_frame, text="Blue Team", width=15, relief="ridge").grid(row=x + 1, column=2)
+
+        query = "select top from redteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 0
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=3)
+            i += 2
+
+        query = "select top from blueteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 1
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=3)
+            i += 2
+
+        query = "select jungle from redteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 0
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=4)
+            i += 2
+
+        query = "select jungle from blueteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 1
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=4)
+            i += 2
+
+        query = "select mid from redteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 0
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=5)
+            i += 2
+
+        query = "select mid from blueteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 1
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=5)
+            i += 2
+
+        query = "select adc from redteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 0
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=6)
+            i += 2
+
+        query = "select adc from blueteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 1
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=6)
+            i += 2
+
+        query = "select support from redteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 0
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=7)
+            i += 2
+
+        query = "select support from blueteam"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 1
+        for x in result:
+            c = tk.Label(second_frame, width=15, text=x[0], relief="ridge")
+            c.grid(row=i + 1, column=7)
+            i += 2
+
+        query = "select redteam_result from gameresult"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 0
+        r = 0
+        for x in result:
+            if x[0] == 1:
+                r = "Win"
+            elif x[0] == 0:
+                r = "Lose"
+            c = tk.Label(second_frame, width=15, text=r, relief="ridge")
+            c.grid(row=i + 1, column=8)
+            i += 2
+
+        query = "select blueteam_result from gameresult"
+        my_cursor.execute(query)
+        result = my_cursor.fetchall()
+        i = 1
+        r = 0
+        for x in result:
+            if x[0] == 1:
+                r = "Win"
+            elif x[0] == 0:
+                r = "Lose"
+            c = tk.Label(second_frame, width=15, text=r, relief="ridge")
+            c.grid(row=i + 1, column=8)
+            i += 2
+
+        tk.Button(self, text="Back", width=10, command=lambda: master.switch_frame(StartPage)).pack()
 
 app = SampleApp()
 app.mainloop()
