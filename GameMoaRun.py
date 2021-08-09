@@ -16,16 +16,6 @@ class SampleApp(tk.Tk):
         self._frame = new_frame
         self._frame.pack()
 
-    GameMoa.lolstat.RedWin
-    GameMoa.lolstat.RedLose
-    GameMoa.lolstat.BlueWin
-    GameMoa.lolstat.BlueLose
-    GameMoa.lolstat.SumWin
-    GameMoa.lolstat.SumLose
-    GameMoa.lolstat.TotalGame
-    GameMoa.lolstat.WinRate
-
-
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -80,14 +70,6 @@ class PageOne(tk.Frame):
             else:
                 print("Error")
 
-            GameMoa.lolstat.RedWin
-            GameMoa.lolstat.RedLose
-            GameMoa.lolstat.BlueWin
-            GameMoa.lolstat.BlueLose
-            GameMoa.lolstat.SumWin
-            GameMoa.lolstat.SumLose
-            GameMoa.lolstat.TotalGame
-
 
         button1 = tk.Button(self, text="Submit", bg="yellow", fg="red", command=cmd)
         button1.grid(row=3, column=1)
@@ -107,6 +89,7 @@ class PageTwo(tk.Frame):
             database='moadb'
         )
         my_conn = my_connect.cursor()
+
         ####### end of connection ####
         my_conn.execute("SELECT * FROM users")
         result = my_conn.fetchall()
@@ -114,7 +97,7 @@ class PageTwo(tk.Frame):
         main_frame = tk.Frame(self)
         main_frame.pack(fill="both", expand=1)
 
-        my_canvas = tk.Canvas(main_frame, width=1325, height=450)
+        my_canvas = tk.Canvas(main_frame, width=1325, height=1000)
         my_canvas.pack(side="left", fill="both", expand=1)
 
         my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=my_canvas.yview)
@@ -248,14 +231,6 @@ class PageThree(tk.Frame):
                 GameMoa.lolstat.GameResult(red_result, blue_result, game_date)
                 GameMoa.lolstat.Redteam(red_top, red_jungle, red_mid, red_adc, red_support)
                 GameMoa.lolstat.Blueteam(blue_top, blue_jungle, blue_mid, blue_adc, blue_support)
-                GameMoa.lolstat.RedWin
-                GameMoa.lolstat.RedLose
-                GameMoa.lolstat.BlueWin
-                GameMoa.lolstat.BlueLose
-                GameMoa.lolstat.SumWin
-                GameMoa.lolstat.SumLose
-                GameMoa.lolstat.TotalGame
-                GameMoa.lolstat.WinRate
 
             else:
                 print("Error - not valid user")
@@ -282,7 +257,7 @@ class PageFour(tk.Frame):
         main_frame = tk.Frame(self)
         main_frame.pack(fill="both", expand=1)
 
-        my_canvas = tk.Canvas(main_frame, width=990, height=450)
+        my_canvas = tk.Canvas(main_frame, width=990, height=1000)
         my_canvas.pack(side="left", fill="both", expand=1)
 
         my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=my_canvas.yview)

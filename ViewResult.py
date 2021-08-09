@@ -4,17 +4,18 @@ from tkinter import *
 my_w = tk.Tk()
 my_w.geometry("860x250")
 my_connect = mysql.connector.connect(
-    host='localhost',
-    user='root',
-    password='123456',
+    host='remotemysql.com',
+    user='5iBhNlaY6v',
+    password='LyNQnlWhvW',
     port='3306',
-    database='moadb'
+    database='5iBhNlaY6v'
 )
 my_conn = my_connect.cursor()
 ####### end of connection ####
 my_conn.execute("SELECT * FROM users")
 result = my_conn.fetchall()
-column_list = ["Index", "ID", "Rank", "Main Role", "Total Game", "Win", "Loss", "Red Win", "Red Loss", "Blue Win", "Blue Loss"]
+column_list = ["Index", "ID", "Rank", "Main Role", "Win Rate %", "Total Game", "Win", "Loss", "Red Win", "Red Loss",
+                       "Blue Win", "Blue Loss"]
 for x in result:
     length = len(x)
     break

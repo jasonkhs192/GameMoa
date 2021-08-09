@@ -14,6 +14,12 @@ mycursor = mydb.cursor()
 # for x in user:
 #     print("Summoner Name: {}\nRank: {}\n".format(x[1], x[2]))
 
+class UsersAll:
+    query = "select * from users"
+    mycursor.execute(query)
+    result = mycursor.fetchall()
+
+
 
 class Redteam:
     def __init__(self, top, jungle, mid, adc, support):
@@ -61,8 +67,8 @@ class NewUser:
         self.rank = rank
         self.position = position
 
-        query = "INSERT INTO users (summonername, ranktier, mainposition, win_rate, totalgame, wins, loss, red_wins, red_loss, blue_wins, blue_loss) values (%s, %s, %s, -, 0, 0, 0, 0, 0, 0, 0)"
-        val = (name, rank, position)
+        query = "INSERT INTO users (summonername, ranktier, mainposition, win_rate, totalgame, wins, loss, red_wins, red_loss, blue_wins, blue_loss) values (%s, %s, %s, %s, 0, 0, 0, 0, 0, 0, 0)"
+        val = (name, rank, position, "NA")
         mycursor.execute(query, val)
         mydb.commit()
 
