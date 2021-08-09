@@ -1,11 +1,11 @@
-import mysql.connector
+class Myclass:
+    def __init__(self):
+        self.value1 = 1
+        self.value2 = 2
 
-mydb = mysql.connector.connect(
-    host='remotemysql.com',
-    user='5iBhNlaY6v',
-    password='LyNQnlWhvW',
-    port='3306',
-    database='5iBhNlaY6v'
-)
+    def get_list(self):
+        return [self.value1, self.value2]
 
-mycursor = mydb.cursor()
+x = Myclass().get_list()
+for y in x:
+    print(y)
