@@ -21,3 +21,5 @@ class NewUser:
         val = (name, rank, position, "NA")
         mycursor.execute(query, val)
         mydb.commit()
+
+

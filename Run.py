@@ -2,6 +2,8 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import GameMoa.DB_GameResult
 import GameMoa.DB_User
+import GameMoa.DBtest
+from tkinter import messagebox
 
 class SampleApp(tk.Tk):
     def __init__(self):
@@ -16,6 +18,21 @@ class SampleApp(tk.Tk):
         self._frame = new_frame
         self._frame.pack()
 
+    def update(self):
+        x = messagebox.askquestion("Update Data", "Update may take a minute, Continue?")
+        if x == "yes":
+            GameMoa.DBtest.redwin()
+            GameMoa.DBtest.redloss()
+            GameMoa.DBtest.bluewin()
+            GameMoa.DBtest.blueloss()
+            GameMoa.DBtest.sumloss()
+            GameMoa.DBtest.sunwin()
+            GameMoa.DBtest.totalgame()
+            GameMoa.DBtest.winrate()
+        else:
+            pass
+
+
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
@@ -29,6 +46,7 @@ class StartPage(tk.Frame):
                   command=lambda: master.switch_frame(PageThree)).pack(fill="x", pady=2)
         tk.Button(self, text="View Game Results",
                   command=lambda: master.switch_frame(PageFour)).pack(fill="x", pady=2)
+        tk.Button(self, text="Update Data", command=lambda: master.update()).pack(fill="x", pady=2)
 
 
 class PageOne(tk.Frame):
@@ -63,8 +81,8 @@ class PageOne(tk.Frame):
             rank_val = combobox1.get()
             pos_val = combobox2.get()
 
-            if name_val == "" or rank_val == "" or pos_val == "":
-                print("There is/are empty field.")
+            if name_val == "" or rank_val == "-Select Rank-" or pos_val == "-Select Main Position-":
+                messagebox.showerror("Error", "Missing Field")
             else:
                 GameMoa.DB_User.NewUser(name_val, rank_val, pos_val)
 
@@ -164,31 +182,34 @@ class PageTwo(tk.Frame):
             else:
                 blue_result = None
 
-
-            if red_result == 1 and blue_result == 1:
-                print("Error - Both team cannot win")
-            elif red_result == 0 and blue_result == 0:
-                print("Error - Both team cannot lose")
-            elif red_result == None and blue_result != None:
-                print("Red team result invalid")
-            elif red_result != None and blue_result == None:
-                print("Blue team result invalid")
-            else:
-                print("Red and Blue team result invalid")
-
             check_count = 0
 
             for player in players:
                 if player != "" and GameMoa.DB_User.CheckUser(player).get_result() == True:
                     check_count += 1
 
-            if check_count == 10:
+            if check_count == 10 and red_result != None and blue_result != None and red_result != blue_result:
                 GameMoa.DB_GameResult.GameResult(red_result, blue_result, game_date)
                 GameMoa.DB_GameResult.Redteam(red_top, red_jungle, red_mid, red_adc, red_support)
                 GameMoa.DB_GameResult.Blueteam(blue_top, blue_jungle, blue_mid, blue_adc, blue_support)
 
+            elif check_count == 10 and red_result == 1 and blue_result == 1:
+                messagebox.showerror("Error", "Both team cannot win")
+
+            elif check_count == 10 and red_result == 0 and blue_result == 0:
+                messagebox.showerror("Error", "Both team cannot lose")
+
+            elif check_count == 10 and red_result == None and blue_result != None:
+                messagebox.showerror("Error", "Red team result is empty")
+
+            elif check_count == 10 and red_result != None and blue_result == None:
+                messagebox.showerror("Error", "Blue team result is empty")
+
+            elif check_count == 10 and red_result == None and blue_result == None:
+                messagebox.showerror("Error", "Red and Blue team result is empty")
+
             else:
-                print("Error - not valid user")
+                messagebox.showerror("Error", "Check Player ID")
 
         button1 = tk.Button(self, text="Save", command=cmd)
         button1.grid(row=3, column=3)
