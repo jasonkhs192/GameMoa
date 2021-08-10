@@ -1,5 +1,9 @@
 import mysql.connector
 
+# CREATE TABLE order_details (price DOUBLE, quantity INT, amount DOUBLE AS (price * quantity));
+#
+# INSERT INTO order_details (price, quantity) VALUES(100,1),(300,4),(60,8);
+
 mydb = mysql.connector.connect(
     host='remotemysql.com',
     user='hqZySr5tq9',
