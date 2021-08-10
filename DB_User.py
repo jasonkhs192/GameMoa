@@ -48,11 +48,3 @@ class UsersAll:
 
     def get_result(self):
         return self.result
-
-class RedWin:
-    def __init__(self):
-        query = "select summonername from users"
-        mycursor.execute(query)
-        self.result = mycursor.fetchall()
-    def get_result(self):
-        return self.result

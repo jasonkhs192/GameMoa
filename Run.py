@@ -21,14 +21,15 @@ class SampleApp(tk.Tk):
     def update(self):
         x = messagebox.askquestion("Update Data", "Update may take a minute, Continue?")
         if x == "yes":
-            GameMoa.DBtest.redwin()
-            GameMoa.DBtest.redloss()
-            GameMoa.DBtest.bluewin()
-            GameMoa.DBtest.blueloss()
-            GameMoa.DBtest.sumloss()
-            GameMoa.DBtest.sunwin()
-            GameMoa.DBtest.totalgame()
-            GameMoa.DBtest.winrate()
+            # GameMoa.DBtest.redwin()
+            # GameMoa.DBtest.redloss()
+            # GameMoa.DBtest.bluewin()
+            # GameMoa.DBtest.blueloss()
+            # GameMoa.DBtest.sumloss()
+            # GameMoa.DBtest.sunwin()
+            # GameMoa.DBtest.totalgame()
+            # GameMoa.DBtest.winrate()
+            messagebox.showinfo("Update", "Data Update Complete")
         else:
             pass
 
@@ -192,6 +193,8 @@ class PageTwo(tk.Frame):
                 GameMoa.DB_GameResult.GameResult(red_result, blue_result, game_date)
                 GameMoa.DB_GameResult.Redteam(red_top, red_jungle, red_mid, red_adc, red_support)
                 GameMoa.DB_GameResult.Blueteam(blue_top, blue_jungle, blue_mid, blue_adc, blue_support)
+                messagebox.showinfo("Update", "Input Game Result Complete")
+
 
             elif check_count == 10 and red_result == 1 and blue_result == 1:
                 messagebox.showerror("Error", "Both team cannot win")
