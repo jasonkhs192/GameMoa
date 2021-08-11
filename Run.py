@@ -223,7 +223,7 @@ class PageThree(tk.Frame):
         main_frame = tk.Frame(self)
         main_frame.pack(fill="both", expand=1)
 
-        my_canvas = tk.Canvas(main_frame, width=1325, height=600)
+        my_canvas = tk.Canvas(main_frame, width=1325, height=500)
         my_canvas.pack(side="left", fill="both", expand=1)
 
         my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=my_canvas.yview)
@@ -265,7 +265,7 @@ class PageFour(tk.Frame):
         main_frame = tk.Frame(self)
         main_frame.pack(fill="both", expand=1)
 
-        my_canvas = tk.Canvas(main_frame, width=990, height=1000)
+        my_canvas = tk.Canvas(main_frame, width=990, height=500)
         my_canvas.pack(side="left", fill="both", expand=1)
 
         my_scrollbar = ttk.Scrollbar(main_frame, orient="vertical", command=my_canvas.yview)
