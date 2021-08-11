@@ -6,6 +6,12 @@ import mysql.connector
 
 # alter table users add column win_rate varchar(100) as (round((red_wins+blue_wins)/nullif((red_wins+red_loss+blue_wins+blue_loss)*(1/100), 0), 2)) after MainPosition
 
+# pyinstaller -F --hidden-import Deploy --onefile --icon=Deploy\gamemoa.ico --noconsole GameMoa.py
+
+#DB1
+#5iBhNlaY6v
+#GAycAe6BPb
+
 mydb = mysql.connector.connect(
     host='remotemysql.com',
     user='hqZySr5tq9',
