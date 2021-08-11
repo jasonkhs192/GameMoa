@@ -21,14 +21,10 @@ class SampleApp(tk.Tk):
     def update(self):
         x = messagebox.askquestion("Update Data", "Update may take a minute, Continue?")
         if x == "yes":
-            # GameMoa.DBtest.redwin()
-            # GameMoa.DBtest.redloss()
-            # GameMoa.DBtest.bluewin()
-            # GameMoa.DBtest.blueloss()
-            # GameMoa.DBtest.sumloss()
-            # GameMoa.DBtest.sunwin()
-            # GameMoa.DBtest.totalgame()
-            # GameMoa.DBtest.winrate()
+            GameMoa.DBtest.redwin()
+            GameMoa.DBtest.redloss()
+            GameMoa.DBtest.bluewin()
+            GameMoa.DBtest.blueloss()
             messagebox.showinfo("Update", "Data Update Complete")
         else:
             pass

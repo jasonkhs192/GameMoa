@@ -17,8 +17,8 @@ class NewUser:
         self.rank = rank
         self.position = position
 
-        query = "INSERT INTO users (summonername, ranktier, mainposition, win_rate, totalgame, wins, loss, red_wins, red_loss, blue_wins, blue_loss) values (%s, %s, %s, %s, 0, 0, 0, 0, 0, 0, 0)"
-        val = (name, rank, position, "NA")
+        query = "INSERT INTO users (summonername, ranktier, mainposition, red_wins, red_loss, blue_wins, blue_loss) values (%s, %s, %s, 0, 0, 0, 0)"
+        val = (name, rank, position)
         mycursor.execute(query, val)
         mydb.commit()
 
